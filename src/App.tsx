@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useMemo } from "react";
 import "./App.css";
 import { PokemonProvider, usePokemon } from "./store";
 import { useObservableState } from "observable-hooks";
@@ -38,9 +38,11 @@ const Search = () => {
   const search = useObservableState(search$, "");
   // console.log("search ", search);
 
-  const filteredPokemon = pokemon.filter((p) =>
-    p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-  );
+  const filteredPokemon = useMemo(() => {
+    return pokemon.filter((p) =>
+      p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+    );
+  }, [pokemon, search]);
 
   return (
     <div>
